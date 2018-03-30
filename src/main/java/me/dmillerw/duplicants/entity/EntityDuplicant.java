@@ -1,6 +1,5 @@
 package me.dmillerw.duplicants.entity;
 
-import me.dmillerw.duplicants.handler.SelectionHandler;
 import me.dmillerw.duplicants.item.ModItems;
 import me.dmillerw.duplicants.network.PacketHandler;
 import me.dmillerw.duplicants.network.packet.CSelectDuplicant;
@@ -59,7 +58,6 @@ public class EntityDuplicant extends EntityLiving {
         if (!itemStack.isEmpty() && itemStack.getItem() == ModItems.selector) {
             if (!player.world.isRemote) {
                 player.sendMessage(new TextComponentString("Selected duplicant"));
-                SelectionHandler.INSTANCE.onDuplicantSelected(player, this);
                 PacketHandler.INSTANCE.sendTo(new CSelectDuplicant(this), (EntityPlayerMP) player);
             }
 

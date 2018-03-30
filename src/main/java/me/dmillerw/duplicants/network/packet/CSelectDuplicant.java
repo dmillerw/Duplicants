@@ -42,8 +42,6 @@ public class CSelectDuplicant implements IMessage {
             EntityPlayer player = FMLClientHandler.instance().getClientPlayerEntity();
             World world = player.world;
 
-            Duplicants.proxy.onDuplicantSelected(player, EntityDuplicant.getFromWorld(world, message.duplicantUuid));
-
             return null;
         }
     }

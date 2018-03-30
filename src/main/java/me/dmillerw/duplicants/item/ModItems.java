@@ -1,5 +1,6 @@
 package me.dmillerw.duplicants.item;
 
+import com.sun.istack.internal.NotNull;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -17,6 +18,7 @@ import static me.dmillerw.duplicants.Duplicants.Info.MOD_ID;
 public class ModItems {
 
     public static final ItemSelector selector = null;
+    public static final ItemBottledSouls bottledSouls = null;
 
     @Mod.EventBusSubscriber
     public static class Loader {
@@ -24,7 +26,8 @@ public class ModItems {
         @SubscribeEvent
         public static void registerItems(RegistryEvent.Register<Item> event) {
             event.getRegistry().registerAll(
-                    new ItemSelector()
+                    new ItemSelector(),
+                    new ItemBottledSouls()
             );
         }
     }

@@ -1,7 +1,11 @@
 package me.dmillerw.duplicants.proxy;
 
+import me.dmillerw.duplicants.client.render.entity.RenderBottledSouls;
 import me.dmillerw.duplicants.client.render.entity.RenderDuplicant;
+import me.dmillerw.duplicants.entity.EntityBottledSouls;
 import me.dmillerw.duplicants.entity.EntityDuplicant;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -12,13 +16,12 @@ import java.util.UUID;
 
 public class ClientProxy extends CommonProxy {
 
-    public static UUID selectedDuplicant;
-
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
 
         RenderingRegistry.registerEntityRenderingHandler(EntityDuplicant.class, manager -> new RenderDuplicant(manager, 1F));
+        RenderingRegistry.registerEntityRenderingHandler(EntityBottledSouls.class, manager -> new RenderBottledSouls(manager, Minecraft.getMinecraft().getRenderItem()));
     }
 
     @Override
@@ -29,14 +32,5 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
-    }
-
-    @Override
-    public void onDuplicantSelected(EntityPlayer entityPlayer, EntityDuplicant entityDuplicant) {
-        if (entityDuplicant != null) {
-            selectedDuplicant = entityDuplicant.getPersistentID();
-        } else {
-            selectedDuplicant = null;
-        }
     }
 }

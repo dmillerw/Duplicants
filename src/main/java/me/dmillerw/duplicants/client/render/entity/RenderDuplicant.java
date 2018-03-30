@@ -33,9 +33,6 @@ public class RenderDuplicant extends RenderLivingBase<EntityDuplicant> {
 
     @Override
     public void renderName(EntityDuplicant entity, double x, double y, double z) {
-        if (entity.getPersistentID().equals(ClientProxy.selectedDuplicant)) {
-            super.renderName(entity, x, y, z);
-        }
     }
 
     @Nullable

@@ -1,7 +1,6 @@
 package me.dmillerw.duplicants.network.packet;
 
 import io.netty.buffer.ByteBuf;
-import me.dmillerw.duplicants.handler.SelectionHandler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -41,7 +40,6 @@ public class SSelectBlock implements IMessage {
 
         @Override
         public IMessage onMessage(SSelectBlock message, MessageContext ctx) {
-            SelectionHandler.INSTANCE.onBlockSelected(ctx.getServerHandler().player, message.type, message.selectedBlockPos);
             return null;
         }
     }
