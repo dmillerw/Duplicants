@@ -1,12 +1,17 @@
 package me.dmillerw.duplicants.entity;
 
+import me.dmillerw.duplicants.inventory.InventoryDuplicant;
 import me.dmillerw.duplicants.item.ModItems;
+import me.dmillerw.duplicants.network.GuiHandler;
 import me.dmillerw.duplicants.network.PacketHandler;
 import me.dmillerw.duplicants.network.packet.CSelectDuplicant;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -16,12 +21,7 @@ import java.util.UUID;
 
 public class EntityDuplicant extends EntityLiving {
 
-    public static EntityDuplicant getFromWorld(World world, UUID uuid) {
-        if (uuid == null) return null;
-        return world.getEntities(EntityDuplicant.class, (e) -> e.getPersistentID().equals(uuid)).stream().findFirst().get();
-    }
-
-    private BlockPos blockTarget;
+    public final InventoryDuplicant inventory = new InventoryDuplicant(this);
 
     public EntityDuplicant(World worldIn) {
         super(worldIn);
@@ -53,17 +53,30 @@ public class EntityDuplicant extends EntityLiving {
     }
 
     @Override
-    protected boolean processInteract(EntityPlayer player, EnumHand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
-        if (!itemStack.isEmpty() && itemStack.getItem() == ModItems.selector) {
-            if (!player.world.isRemote) {
-                player.sendMessage(new TextComponentString("Selected duplicant"));
-                PacketHandler.INSTANCE.sendTo(new CSelectDuplicant(this), (EntityPlayerMP) player);
-            }
+    public void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
 
-            return true;
-        } else {
-            return false;
+        compound.setTag("Inventory", this.inventory.writeToNBT(new NBTTagCompound()));
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+
+        this.inventory.readFromNBT(compound.getCompoundTag("Inventory"));
+    }
+
+    @Override
+    public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn) {
+        return super.getItemStackFromSlot(slotIn);
+    }
+
+    @Override
+    protected boolean processInteract(EntityPlayer player, EnumHand hand) {
+        System.out.println(player.world.isRemote);
+        if (!player.world.isRemote) {
+            GuiHandler.openGui(GuiHandler.GuiKey.DUPLICANT, player, new GuiHandler.Target(this.getEntityId()));
         }
+        return true;
     }
 }

@@ -4,18 +4,24 @@ import me.dmillerw.duplicants.client.model.ModelDuplicant;
 import me.dmillerw.duplicants.entity.EntityDuplicant;
 import me.dmillerw.duplicants.proxy.ClientProxy;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class RenderDuplicant extends RenderLivingBase<EntityDuplicant> {
+public class RenderDuplicant extends RenderBiped<EntityDuplicant> {
 
     public RenderDuplicant(RenderManager renderManagerIn, float shadowSizeIn) {
         super(renderManagerIn, new ModelDuplicant(), shadowSizeIn);
+
+        this.addLayer(new LayerBipedArmor(this));
+        this.addLayer(new LayerHeldItem(this));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package me.dmillerw.duplicants.network;
 
+import me.dmillerw.duplicants.network.packet.COpenGui;
 import me.dmillerw.duplicants.network.packet.CSelectDuplicant;
 import me.dmillerw.duplicants.network.packet.SSelectBlock;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -14,7 +15,6 @@ public class PacketHandler {
 
     public static void initialize() {
 
-        INSTANCE.registerMessage(CSelectDuplicant.Handler.class, CSelectDuplicant.class, 1, Side.CLIENT);
-        INSTANCE.registerMessage(SSelectBlock.Handler.class, SSelectBlock.class, -1, Side.SERVER);
+        INSTANCE.registerMessage(COpenGui.Handler.class, COpenGui.class, 1, Side.CLIENT);
     }
 }
