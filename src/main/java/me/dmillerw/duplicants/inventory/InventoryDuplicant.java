@@ -149,4 +149,14 @@ public class InventoryDuplicant implements IInventory {
             inventory.set(slot, itemstack);
         }
     }
+
+    public void dropAllItems() {
+        for (int i=0; i<this.mainInventory.size(); i++) {
+            ItemStack itemStack = this.mainInventory.get(i);
+            if (!itemStack.isEmpty()) {
+                this.entityDuplicant.entityDropItem(itemStack, 0F);
+                this.mainInventory.set(i, ItemStack.EMPTY);
+            }
+        }
+    }
 }

@@ -5,10 +5,12 @@ import me.dmillerw.duplicants.item.ModItems;
 import me.dmillerw.duplicants.network.GuiHandler;
 import me.dmillerw.duplicants.network.PacketHandler;
 import me.dmillerw.duplicants.network.packet.CSelectDuplicant;
+import me.dmillerw.duplicants.util.InventoryUtil;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -78,5 +80,12 @@ public class EntityDuplicant extends EntityLiving {
             GuiHandler.openGui(GuiHandler.GuiKey.DUPLICANT, player, new GuiHandler.Target(this.getEntityId()));
         }
         return true;
+    }
+
+    @Override
+    protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {
+        InventoryUtil.dropInventory(this, this.inventory);
+        InventoryUtil.dropInventory(this, (IInventory) this.getArmorInventoryList());
+        InventoryUtil.dropInventory(this, (IInventory) this.getHeldEquipment());
     }
 }
