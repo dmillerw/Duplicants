@@ -1,7 +1,7 @@
 package me.dmillerw.duplicants.network;
 
-import me.dmillerw.duplicants.Duplicants;
 import me.dmillerw.duplicants.client.gui.GuiDuplicant;
+import me.dmillerw.duplicants.client.gui.GuiDuplicantVisualSettings;
 import me.dmillerw.duplicants.entity.EntityDuplicant;
 import me.dmillerw.duplicants.inventory.ContainerDuplicant;
 import me.dmillerw.duplicants.network.packet.COpenGui;
@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -34,7 +33,8 @@ public class GuiHandler {
         public BlockPos blockPos = BlockPos.ORIGIN;
         public int rawEntityId = -1;
 
-        public Target() {}
+        public Target() {
+        }
 
         public Target(BlockPos blockPos) {
             this.targetType = TargetType.BLOCK;
@@ -53,7 +53,14 @@ public class GuiHandler {
 
     public static enum GuiKey {
 
-        DUPLICANT;
+        DUPLICANT_INVENTORY(true),
+        DUPLICANT_SETTINGS(false);
+
+        public final boolean hasContainer;
+
+        private GuiKey(boolean hasContainer) {
+            this.hasContainer = hasContainer;
+        }
     }
 
     public static interface ClientGuiHandler {
@@ -70,17 +77,35 @@ public class GuiHandler {
     private static EnumMap<GuiKey, ServerGuiHandler> serverGuiHandlers = new EnumMap<>(GuiKey.class);
 
     public static void initialize() {
-        clientGuiHandlers.put(GuiKey.DUPLICANT, (p, t) -> new GuiDuplicant(p, (EntityDuplicant) t.getEntity(p.world)));
+        clientGuiHandlers.put(GuiKey.DUPLICANT_INVENTORY, (p, t) -> new GuiDuplicant(p, (EntityDuplicant) t.getEntity(p.world)));
+        clientGuiHandlers.put(GuiKey.DUPLICANT_SETTINGS, (p, t) -> new GuiDuplicantVisualSettings((EntityDuplicant) t.getEntity(p.world)));
 
-        serverGuiHandlers.put(GuiKey.DUPLICANT, (p, t) -> new ContainerDuplicant(p, (EntityDuplicant) t.getEntity(p.world)));
+        serverGuiHandlers.put(GuiKey.DUPLICANT_INVENTORY, (p, t) -> new ContainerDuplicant(p, (EntityDuplicant) t.getEntity(p.world)));
     }
 
     public static void openGui(GuiKey guiKey, EntityPlayer entityPlayer, Target target) {
         if (!entityPlayer.world.isRemote) {
             EntityPlayerMP entityPlayerMP = (EntityPlayerMP) entityPlayer;
-            Container container = GuiHandler.getContainer(guiKey, entityPlayer, target);
 
-            if (container != null) {
+            if (guiKey.hasContainer) {
+                Container container = GuiHandler.getContainer(guiKey, entityPlayer, target);
+
+                if (container != null) {
+                    entityPlayerMP.getNextWindowId();
+                    entityPlayerMP.closeContainer();
+
+                    int windowId = entityPlayerMP.currentWindowId;
+
+                    COpenGui packet = new COpenGui(guiKey, target, windowId);
+                    PacketHandler.INSTANCE.sendTo(packet, entityPlayerMP);
+
+                    entityPlayerMP.openContainer = container;
+                    entityPlayerMP.openContainer.windowId = windowId;
+                    entityPlayerMP.openContainer.addListener(entityPlayerMP);
+
+                    MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(entityPlayer, entityPlayer.openContainer));
+                }
+            } else {
                 entityPlayerMP.getNextWindowId();
                 entityPlayerMP.closeContainer();
 
@@ -88,12 +113,6 @@ public class GuiHandler {
 
                 COpenGui packet = new COpenGui(guiKey, target, windowId);
                 PacketHandler.INSTANCE.sendTo(packet, entityPlayerMP);
-
-                entityPlayerMP.openContainer = container;
-                entityPlayerMP.openContainer.windowId = windowId;
-                entityPlayerMP.openContainer.addListener(entityPlayerMP);
-
-                MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(entityPlayer, entityPlayer.openContainer));
             }
         }
     }

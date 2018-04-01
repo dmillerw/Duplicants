@@ -4,6 +4,7 @@ import me.dmillerw.duplicants.Duplicants;
 import me.dmillerw.duplicants.entity.EntityDuplicant;
 import me.dmillerw.duplicants.inventory.ContainerDuplicant;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -13,6 +14,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
+
+import java.io.IOException;
 
 public class GuiDuplicant extends GuiContainer {
 
@@ -31,6 +35,13 @@ public class GuiDuplicant extends GuiContainer {
         this.ySize = 188;
 
         this.entityDuplicant = entityDuplicant;
+    }
+
+    @Override
+    public void initGui() {
+        super.initGui();
+
+        addButton(new GuiButtonExt(0, guiLeft + 106, guiTop + 61, 63, 18, "Settings"));
     }
 
     @Override
@@ -91,5 +102,13 @@ public class GuiDuplicant extends GuiContainer {
         GlStateManager.setActiveTexture(OpenGlHelper.lightmapTexUnit);
         GlStateManager.disableTexture2D();
         GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException {
+        if (button.id == 0) {
+            GuiDuplicantVisualSettings settings = new GuiDuplicantVisualSettings(this.entityDuplicant);
+            this.mc.displayGuiScreen(settings);
+        }
     }
 }
