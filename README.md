@@ -15,6 +15,21 @@ duplicants can also be specifically assigned a job, with optional criteria
 * for example, tell a duplicant to tend to an area, but only if the global inventory lacks something
 ** each master can specifiy inventorys that contribute to the global inventory. duplicants can access these if need be, and use them to determine conditionals
 
+{{ AI }}
+All work in the world is handled by a server side AI manager. It maintains a list of all jobs that currently need doing in the world. It also knows about every registered duplicant in the world, where they are, and what they're doing. Based on current needs and priorities (either dictated by the player, or by the various job priorities set) it assigns jobs to available duplicants. 
+
+Duplicants also have the ability to manage their own AI based on the world directly around them. This is used primarily for movement or combat, but actions like gathering things off the ground, and idle animations, are also run through this method
+
+AI manager controls actual important world-wide work, Duplicant controls things more directly related to itself
+
+Jobs code-wise are subclassed from a core Job class. This job class is unique to every task required within the world, and new instances are created as work is required. It maintains tracking of the overall job progress (implementation is job specific) as well as what duplicant is actually performing the work. This allows for a core platform to handle and dispatch things effeciently, and persist state in a central location
+
+Core job class also provides helper methods to simplify movement/intereaction handling per job
+
+Jobs are also created with a priority, which is taken into account when dispatching jobs. Additionally, jobs can be part of a larger group of jobs to be done. This is done by a flag being set on job creation that indicates more work may be required. If this flag is set, when the duplicant finishes the job it was working on, it will check with the job source to see if another job is available. This could be accomplished simply by emitting a new job whenever the old one is finished, but there's a chancec of that duplicant being assigned a new and different job before the continuation of the old one
+
+Once a job is determined to be finished, it is removed from the global list. 
+
 [STEP 1 - DONE]
 Duplicant generation process
 * Potion from soul sand
@@ -65,12 +80,13 @@ System allows for flawless interaction with mods, but still allowing for a fine 
 !! fluids also a possiblity? duplicant utilizes whatever water storage item it has available
 Also needs to be tied to the player somehow? by profile?
 
-{ duplicant ai cycle }
-Look through all nearby sources, looking for any work that needs done (storing items from providers in storage, moving them to consumers asking for them, etc)
-If one is found, duplicant will mark it as in progress, preventing other duplicants from taking the job, also providing feedback to the player (somehow, tool?)
-Actual manipulation falls down to very simple AI tasks. Walk to source, extract item from inventory, walk to destination, deposit item
+Each registered source will emit a job based on its current needs.
 
 {{ world data }}
 Holds a map of blockpos -> inventory configuration, pretty simple
 Inventory configuration holds a reference to the tile entity, as well as a list of what it takes in, or gives (depending on the configuration)
-Storage will just provide a blacklist/whitelist
+Producer will accept a configurable list of 'recipes', which specify what it can take in, on what sides, and what it will provide (and where)
+Consumer will take a configurable item, on configurable side
+Provider will just have a configurable side to pull from, no blacklist/whitelist
+
+Storage will just provide a blacklist/whitelist. It is also a special case, as it doesn't emit any job requests, but simply services as an index for anything requiring item storage
