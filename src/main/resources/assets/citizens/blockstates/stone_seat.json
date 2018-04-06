@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=south": { "model": "citizens:stone_seat" },
+    "facing=west": { "model": "citizens:stone_seat", "y": 90 },
+    "facing=north": { "model": "citizens:stone_seat", "y": 180 },
+    "facing=east": { "model": "citizens:stone_seat", "y": 270 }
+  }
+}

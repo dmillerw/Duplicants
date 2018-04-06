@@ -1,0 +1,6 @@
+{
+  "parent": "citizens:block/stone_seat",
+  "textures": {
+    "layer0": "blocks/stone"
+  }
+}

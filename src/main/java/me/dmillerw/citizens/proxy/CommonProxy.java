@@ -2,6 +2,7 @@ package me.dmillerw.citizens.proxy;
 
 import me.dmillerw.citizens.Citizens;
 import me.dmillerw.citizens.entity.EntityDuplicant;
+import me.dmillerw.citizens.entity.EntitySeat;
 import me.dmillerw.citizens.network.GuiHandler;
 import me.dmillerw.citizens.network.PacketHandler;
 import me.dmillerw.citizens.proxy.handlers.OnFmlEvent;
@@ -28,6 +29,16 @@ public class CommonProxy implements OnFmlEvent {
                 80,
                 3,
                 true);
+
+        EntityRegistry.registerModEntity(
+                new ResourceLocation("citizens:seat"),
+                EntitySeat.class,
+                "seat",
+                1,
+                Citizens.instance,
+                10,
+                10,
+                false);
     }
 
     @Override

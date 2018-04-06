@@ -1,5 +1,6 @@
 package me.dmillerw.citizens.client.handler;
 
+import me.dmillerw.citizens.block.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -19,7 +20,8 @@ public class ClientRegistryHandler {
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-
+        registerItemModel(ModBlocks.campfire_item);
+        registerItemModel(ModBlocks.stone_seat_item);
     }
 
     private static void forceState(Block block, ModelResourceLocation location) {

@@ -1,0 +1,6 @@
+{
+  "parent": "citizens:block/campfire",
+  "textures": {
+    "layer0": "blocks/log_oak"
+  }
+}
