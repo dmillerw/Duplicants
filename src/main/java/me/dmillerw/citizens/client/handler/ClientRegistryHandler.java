@@ -1,6 +1,5 @@
 package me.dmillerw.citizens.client.handler;
 
-import me.dmillerw.citizens.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -20,7 +19,7 @@ public class ClientRegistryHandler {
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        ModelLoader.setCustomModelResourceLocation(ModItems.bottledSouls, 0, new ModelResourceLocation(ModItems.bottledSouls.getRegistryName().toString()));
+
     }
 
     private static void forceState(Block block, ModelResourceLocation location) {

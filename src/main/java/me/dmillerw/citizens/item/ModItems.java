@@ -14,15 +14,13 @@ import static me.dmillerw.citizens.Citizens.Info.MOD_ID;
 @GameRegistry.ObjectHolder(MOD_ID)
 public class ModItems {
 
-    public static final ItemBottledSouls bottledSouls = null;
-
     @Mod.EventBusSubscriber
     public static class Loader {
 
         @SubscribeEvent
         public static void registerItems(RegistryEvent.Register<Item> event) {
             event.getRegistry().registerAll(
-                    new ItemBottledSouls()
+
             );
         }
     }
