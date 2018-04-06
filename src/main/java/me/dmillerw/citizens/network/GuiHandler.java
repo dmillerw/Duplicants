@@ -2,7 +2,7 @@ package me.dmillerw.citizens.network;
 
 import me.dmillerw.citizens.client.gui.GuiCitizenInventory;
 import me.dmillerw.citizens.client.gui.GuiDuplicantVisualSettings;
-import me.dmillerw.citizens.entity.EntityDuplicant;
+import me.dmillerw.citizens.entity.EntityCitizen;
 import me.dmillerw.citizens.inventory.ContainerCitizenInventory;
 import me.dmillerw.citizens.network.packet.COpenGui;
 import net.minecraft.client.gui.Gui;
@@ -77,10 +77,10 @@ public class GuiHandler {
     private static EnumMap<GuiKey, ServerGuiHandler> serverGuiHandlers = new EnumMap<>(GuiKey.class);
 
     public static void initialize() {
-        clientGuiHandlers.put(GuiKey.DUPLICANT_INVENTORY, (p, t) -> new GuiCitizenInventory(p, (EntityDuplicant) t.getEntity(p.world)));
-        clientGuiHandlers.put(GuiKey.DUPLICANT_SETTINGS, (p, t) -> new GuiDuplicantVisualSettings((EntityDuplicant) t.getEntity(p.world)));
+        clientGuiHandlers.put(GuiKey.DUPLICANT_INVENTORY, (p, t) -> new GuiCitizenInventory(p, (EntityCitizen) t.getEntity(p.world)));
+        clientGuiHandlers.put(GuiKey.DUPLICANT_SETTINGS, (p, t) -> new GuiDuplicantVisualSettings((EntityCitizen) t.getEntity(p.world)));
 
-        serverGuiHandlers.put(GuiKey.DUPLICANT_INVENTORY, (p, t) -> new ContainerCitizenInventory(p, (EntityDuplicant) t.getEntity(p.world)));
+        serverGuiHandlers.put(GuiKey.DUPLICANT_INVENTORY, (p, t) -> new ContainerCitizenInventory(p, (EntityCitizen) t.getEntity(p.world)));
     }
 
     public static void openGui(GuiKey guiKey, EntityPlayer entityPlayer, Target target) {

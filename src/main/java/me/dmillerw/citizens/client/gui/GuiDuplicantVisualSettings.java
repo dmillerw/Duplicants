@@ -1,7 +1,7 @@
 package me.dmillerw.citizens.client.gui;
 
 import me.dmillerw.citizens.Citizens;
-import me.dmillerw.citizens.entity.EntityDuplicant;
+import me.dmillerw.citizens.entity.EntityCitizen;
 import me.dmillerw.citizens.network.PacketHandler;
 import me.dmillerw.citizens.network.packet.SSetCitizenSettings;
 import net.minecraft.client.gui.GuiButton;
@@ -23,7 +23,7 @@ public class GuiDuplicantVisualSettings extends GuiScreen {
     private int xSize = 176;
     private int ySize = 166;
 
-    private final EntityDuplicant entityDuplicant;
+    private final EntityCitizen entityCitizen;
 
     private GuiButtonExt buttonShowNameplate;
 
@@ -32,9 +32,9 @@ public class GuiDuplicantVisualSettings extends GuiScreen {
 
     private boolean showNameplate;
 
-    public GuiDuplicantVisualSettings(EntityDuplicant entityDuplicant) {
-        this.entityDuplicant = entityDuplicant;
-        this.showNameplate = entityDuplicant.getShowNameplate();
+    public GuiDuplicantVisualSettings(EntityCitizen entityCitizen) {
+        this.entityCitizen = entityCitizen;
+        this.showNameplate = entityCitizen.getShowNameplate();
     }
 
     @Override
@@ -45,9 +45,9 @@ public class GuiDuplicantVisualSettings extends GuiScreen {
         this.guiTop = (this.height - this.ySize) / 2;
 
         nameField = new GuiTextField(0, fontRenderer, guiLeft + 7, guiTop + 21, 110, 16);
-        nameField.setText(entityDuplicant.getName());
+        nameField.setText(entityCitizen.getName());
         skinField = new GuiTextField(1, fontRenderer, guiLeft + 7, guiTop + 89, 110, 16);
-        skinField.setText(entityDuplicant.getSkin());
+        skinField.setText(entityCitizen.getSkin());
 
         addButton(buttonShowNameplate = new GuiButtonExt(0, guiLeft + 7, guiTop + 55, 110, 16, showNameplate ? "TRUE" : "FALSE"));
         addButton(new GuiButtonExt(1, guiLeft + 111, guiTop + 143, 27, 16, "Cancel"));
@@ -102,7 +102,7 @@ public class GuiDuplicantVisualSettings extends GuiScreen {
                 this.mc.setIngameFocus();
             }
 
-            SSetCitizenSettings packet = new SSetCitizenSettings(entityDuplicant.getEntityId(), nameField.getText(), skinField.getText(), showNameplate);
+            SSetCitizenSettings packet = new SSetCitizenSettings(entityCitizen.getEntityId(), nameField.getText(), skinField.getText(), showNameplate);
             PacketHandler.INSTANCE.sendToServer(packet);
         }
     }

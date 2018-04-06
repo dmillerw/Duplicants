@@ -2,7 +2,7 @@ package me.dmillerw.citizens.client.render.entity;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import me.dmillerw.citizens.client.model.ModelCitizen;
-import me.dmillerw.citizens.entity.EntityDuplicant;
+import me.dmillerw.citizens.entity.EntityCitizen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -17,30 +17,30 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.UUID;
 
-public class RenderCitizen extends RenderBiped<EntityDuplicant> {
+public class RenderCitizen extends RenderBiped<EntityCitizen> {
 
     public RenderCitizen(RenderManager renderManagerIn, float shadowSizeIn) {
-        super(renderManagerIn, new ModelCitizen(), shadowSizeIn);
+        super(renderManagerIn, new ModelCitizen(), 0.5F);
 
         this.addLayer(new LayerBipedArmor(this));
         this.addLayer(new LayerHeldItem(this));
     }
 
     @Override
-    public void doRender(EntityDuplicant entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(EntityCitizen entity, double x, double y, double z, float entityYaw, float partialTicks) {
         GlStateManager.enableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
         GlStateManager.disableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
     }
 
     @Override
-    protected void preRenderCallback(EntityDuplicant entitylivingbaseIn, float partialTickTime) {
+    protected void preRenderCallback(EntityCitizen entitylivingbaseIn, float partialTickTime) {
         float f = 0.9375F;
         GlStateManager.scale(0.9375F, 0.9375F, 0.9375F);
     }
 
     @Override
-    public void renderName(EntityDuplicant entity, double x, double y, double z) {
+    public void renderName(EntityCitizen entity, double x, double y, double z) {
         if (entity.getShowNameplate()) {
             if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.RenderLivingEvent.Specials.Pre<>(entity, this, x, y, z)))
                 return;
@@ -60,7 +60,7 @@ public class RenderCitizen extends RenderBiped<EntityDuplicant> {
 
     @Nullable
     @Override
-    protected ResourceLocation getEntityTexture(EntityDuplicant entity) {
+    protected ResourceLocation getEntityTexture(EntityCitizen entity) {
         ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultSkinLegacy();
 
         if (entity.clientProfile != null) {

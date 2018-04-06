@@ -1,7 +1,7 @@
 package me.dmillerw.citizens.network.packet;
 
 import io.netty.buffer.ByteBuf;
-import me.dmillerw.citizens.entity.EntityDuplicant;
+import me.dmillerw.citizens.entity.EntityCitizen;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -50,10 +50,10 @@ public class SSetCitizenSettings implements IMessage {
         public IMessage onMessage(SSetCitizenSettings message, MessageContext ctx) {
             World world = ctx.getServerHandler().player.world;
             Entity entity = world.getEntityByID(message.entityId);
-            if (entity != null && entity instanceof EntityDuplicant) {
-                ((EntityDuplicant) entity).setName(message.name);
-                ((EntityDuplicant) entity).setShowNameplate(message.showNameplate);
-                ((EntityDuplicant) entity).setSkin(message.skin);
+            if (entity != null && entity instanceof EntityCitizen) {
+                ((EntityCitizen) entity).setName(message.name);
+                ((EntityCitizen) entity).setShowNameplate(message.showNameplate);
+                ((EntityCitizen) entity).setSkin(message.skin);
             }
 
             return null;

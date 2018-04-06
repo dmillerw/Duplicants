@@ -1,6 +1,6 @@
 package me.dmillerw.citizens.inventory;
 
-import me.dmillerw.citizens.entity.EntityDuplicant;
+import me.dmillerw.citizens.entity.EntityCitizen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -14,10 +14,10 @@ public class InventoryCitizen implements IInventory {
 
     private final NonNullList<ItemStack> mainInventory = NonNullList.withSize(9, ItemStack.EMPTY);
 
-    private final EntityDuplicant entityDuplicant;
+    private final EntityCitizen entityCitizen;
 
-    public InventoryCitizen(EntityDuplicant entityDuplicant) {
-        this.entityDuplicant = entityDuplicant;
+    public InventoryCitizen(EntityCitizen entityCitizen) {
+        this.entityCitizen = entityCitizen;
     }
 
     @Override
@@ -154,7 +154,7 @@ public class InventoryCitizen implements IInventory {
         for (int i=0; i<this.mainInventory.size(); i++) {
             ItemStack itemStack = this.mainInventory.get(i);
             if (!itemStack.isEmpty()) {
-                this.entityDuplicant.entityDropItem(itemStack, 0F);
+                this.entityCitizen.entityDropItem(itemStack, 0F);
                 this.mainInventory.set(i, ItemStack.EMPTY);
             }
         }

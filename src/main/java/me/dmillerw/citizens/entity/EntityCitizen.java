@@ -25,18 +25,18 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class EntityDuplicant extends EntityLiving {
+public class EntityCitizen extends EntityLiving {
 
-    private static final DataParameter<String> NAME = EntityDataManager.createKey(EntityDuplicant.class, DataSerializers.STRING);
-    private static final DataParameter<String> SKIN = EntityDataManager.createKey(EntityDuplicant.class, DataSerializers.STRING);
-    private static final DataParameter<Boolean> SHOW_NAMEPLATE = EntityDataManager.createKey(EntityDuplicant.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<String> NAME = EntityDataManager.createKey(EntityCitizen.class, DataSerializers.STRING);
+    private static final DataParameter<String> SKIN = EntityDataManager.createKey(EntityCitizen.class, DataSerializers.STRING);
+    private static final DataParameter<Boolean> SHOW_NAMEPLATE = EntityDataManager.createKey(EntityCitizen.class, DataSerializers.BOOLEAN);
 
     public final InventoryCitizen inventory = new InventoryCitizen(this);
 
     public String clientSkinCached = "";
     public GameProfile clientProfile = null;
 
-    public EntityDuplicant(World worldIn) {
+    public EntityCitizen(World worldIn) {
         super(worldIn);
     }
 

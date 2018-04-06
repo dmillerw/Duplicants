@@ -1,6 +1,6 @@
 package me.dmillerw.citizens.inventory;
 
-import me.dmillerw.citizens.entity.EntityDuplicant;
+import me.dmillerw.citizens.entity.EntityCitizen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -19,20 +19,20 @@ public class ContainerCitizenInventory extends Container {
     private static final EntityEquipmentSlot[] VALID_EQUIPMENT_SLOTS = new EntityEquipmentSlot[]{EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.FEET};
 
     private final EntityPlayer entityPlayer;
-    private final EntityDuplicant entityDuplicant;
+    private final EntityCitizen entityCitizen;
 
-    public ContainerCitizenInventory(EntityPlayer entityPlayer, EntityDuplicant entityDuplicant) {
+    public ContainerCitizenInventory(EntityPlayer entityPlayer, EntityCitizen entityCitizen) {
         this.entityPlayer = entityPlayer;
-        this.entityDuplicant = entityDuplicant;
+        this.entityCitizen = entityCitizen;
 
         // Duplicant Inv
         for (int i = 0; i < 9; i++) {
-            addSlotToContainer(new Slot(entityDuplicant.inventory, i, 8 + 18 * i, 84));
+            addSlotToContainer(new Slot(entityCitizen.inventory, i, 8 + 18 * i, 84));
         }
 
         for (int i = 0; i < 4; i++) {
             final EntityEquipmentSlot entityequipmentslot = VALID_EQUIPMENT_SLOTS[i];
-            addSlotToContainer(new Slot(new WrappedInventory((NonNullList<ItemStack>) entityDuplicant.getArmorInventoryList()), 3 - i, 8, 8 + 18 * i) {
+            addSlotToContainer(new Slot(new WrappedInventory((NonNullList<ItemStack>) entityCitizen.getArmorInventoryList()), 3 - i, 8, 8 + 18 * i) {
                 public int getSlotStackLimit() {
                     return 1;
                 }
@@ -54,7 +54,7 @@ public class ContainerCitizenInventory extends Container {
             });
         }
 
-        addSlotToContainer(new Slot(new WrappedInventory((NonNullList<ItemStack>) entityDuplicant.getHeldEquipment()), 0, 85, 62));
+        addSlotToContainer(new Slot(new WrappedInventory((NonNullList<ItemStack>) entityCitizen.getHeldEquipment()), 0, 85, 62));
 
         // Player Inv
         for (int k = 0; k < 3; ++k) {

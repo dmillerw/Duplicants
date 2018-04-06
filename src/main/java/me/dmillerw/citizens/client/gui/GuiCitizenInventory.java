@@ -1,7 +1,7 @@
 package me.dmillerw.citizens.client.gui;
 
 import me.dmillerw.citizens.Citizens;
-import me.dmillerw.citizens.entity.EntityDuplicant;
+import me.dmillerw.citizens.entity.EntityCitizen;
 import me.dmillerw.citizens.inventory.ContainerCitizenInventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -25,15 +25,15 @@ public class GuiCitizenInventory extends GuiContainer {
     private float oldMouseY;
 
     private EntityPlayer entityPlayer;
-    private EntityDuplicant entityDuplicant;
+    private EntityCitizen entityCitizen;
 
-    public GuiCitizenInventory(EntityPlayer entityPlayer, EntityDuplicant entityDuplicant) {
-        super(new ContainerCitizenInventory(entityPlayer, entityDuplicant));
+    public GuiCitizenInventory(EntityPlayer entityPlayer, EntityCitizen entityCitizen) {
+        super(new ContainerCitizenInventory(entityPlayer, entityCitizen));
 
         this.xSize = 176;
         this.ySize = 188;
 
-        this.entityDuplicant = entityDuplicant;
+        this.entityCitizen = entityCitizen;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class GuiCitizenInventory extends GuiContainer {
         int j = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
 
-        drawEntityOnScreen(i + 51, j + 75, 30, (float) (i + 51) - this.oldMouseX, (float) (j + 75 - 50) - this.oldMouseY, entityDuplicant);
+        drawEntityOnScreen(i + 51, j + 75, 30, (float) (i + 51) - this.oldMouseX, (float) (j + 75 - 50) - this.oldMouseY, entityCitizen);
     }
 
     private void drawEntityOnScreen(int posX, int posY, int scale, float mouseX, float mouseY, EntityLivingBase ent) {
@@ -106,7 +106,7 @@ public class GuiCitizenInventory extends GuiContainer {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button.id == 0) {
-            GuiDuplicantVisualSettings settings = new GuiDuplicantVisualSettings(this.entityDuplicant);
+            GuiDuplicantVisualSettings settings = new GuiDuplicantVisualSettings(this.entityCitizen);
             this.mc.displayGuiScreen(settings);
         }
     }
