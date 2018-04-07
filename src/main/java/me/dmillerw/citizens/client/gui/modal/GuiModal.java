@@ -13,7 +13,7 @@ public class GuiModal extends GuiScreen {
 
     private static final ResourceLocation GUI_TEXTURE = new ResourceLocation(Citizens.Info.MOD_ID, "textures/gui/expandable.png");
 
-    private LayoutManager layoutManager = new LayoutManager();
+    private LayoutManager layoutManager = new LayoutManager(this);
 
     private int guiLeft;
     private int guiTop;
@@ -25,8 +25,17 @@ public class GuiModal extends GuiScreen {
     public void initGui() {
         super.initGui();
 
+        initializeLayout(layoutManager);
+
+        this.xSize = layoutManager.getWidth();
+        this.ySize = layoutManager.getHeight();
+
         this.guiLeft = (this.width - this.xSize) / 2;
         this.guiTop = (this.height - this.ySize) / 2;
+    }
+
+    public void initializeLayout(LayoutManager layoutManager) {
+
     }
 
     @Override
@@ -60,6 +69,13 @@ public class GuiModal extends GuiScreen {
 
         // Center
         drawTexturedModalRect(guiLeft + cornerSize, guiTop + cornerSize, 5, 5, xDistance - cornerSize, yDistance - cornerSize, 1, 1);
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(guiLeft + layoutManager.paddingLeft, guiTop + layoutManager.paddingTop, zLevel);
+
+        layoutManager.draw(mouseX - guiLeft, mouseY - guiTop, partialTicks);
+
+        GlStateManager.popMatrix();
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

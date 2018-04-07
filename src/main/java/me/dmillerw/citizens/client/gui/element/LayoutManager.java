@@ -1,12 +1,10 @@
 package me.dmillerw.citizens.client.gui.element;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 public class LayoutManager {
@@ -15,62 +13,51 @@ public class LayoutManager {
 
     private Map<String, WrappedElement<?>> elements = Maps.newHashMap();
 
-    private List<WrappedElement<?>> sortedByX = Lists.newArrayList();
-    private List<WrappedElement<?>> sortedByY = Lists.newArrayList();
+    private int largestXPosition = -1;
+    private int largestYPosition = -1;
 
-    private List<WrappedElement<?>> sortedByZ = Lists.newArrayList();
+    private int width = -1;
+    private int height = -1;
 
-    private int width = 0;
-    private int height = 0;
-
-    private int paddingLeft = 0;
-    private int paddingRight = 0;
-    private int paddingTop = 0;
-    private int paddingDown = 0;
+    public int paddingLeft = 5;
+    public int paddingRight = 5;
+    public int paddingTop = 5;
+    public int paddingDown = 5;
 
     public LayoutManager(GuiScreen gui) {
         this.parentGui = gui;
     }
 
-    protected void addElement(WrappedElement<?> element) {
-        this.elements.put(element.getId(), element);
-
-        this.sortedByX.add(element);
-        this.sortedByX.sort(Comparator.comparingInt(c -> c.x));
-
-        this.sortedByY.add(element);
-        this.sortedByY.sort(Comparator.comparingInt(c -> c.y));
+    public void addAll(Collection<WrappedElement<?>> elements) {
+        elements.forEach(this::addElement);
     }
 
-    public void recalculateBounds() {
-        int twidth = 0;
-        int lastX = 0;
+    public void addElement(WrappedElement<?> element) {
+        element.attachLayoutManager(this);
 
-        for (WrappedElement<?> element : sortedByX) {
-            if (element.x < lastX) {
-                twidth += element.width - (lastX - element.x);
-            } else {
-                twidth += element.width + (element.x - lastX);
-            }
+        this.elements.put(element.getId(), element);
 
-            lastX = element.x;
+        if (element.x >= largestXPosition) {
+            largestXPosition = element.x;
+            width = paddingLeft * 2 + largestXPosition + element.width + paddingRight;
         }
 
-        int theight = 0;
-        int lastY = 0;
-
-        for (WrappedElement<?> element : sortedByY) {
-            if (element.y < lastY) {
-                theight += element.height - (lastY - element.y);
-            } else {
-                theight += element.height + (element.y - lastY);
-            }
-
-            lastY = element.y;
+        if (element.y >= largestYPosition) {
+            largestYPosition = element.y;
+            height = paddingTop * 2 + largestYPosition + element.height + paddingDown;
         }
+    }
 
-        this.width = paddingLeft + twidth + paddingRight;
-        this.height = paddingTop + theight + paddingDown;
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public void draw(int mouseX, int mouseY, float partial) {
+        elements.values().forEach((e) -> e.drawElement(getMinecraft(), mouseX, mouseY, partial));
     }
 
     public Minecraft getMinecraft() {

@@ -10,11 +10,21 @@ public abstract class WrappedElement<E> {
 
     private E object;
 
-    public final int x;
-    public final int y;
+    public int x;
+    public int y;
 
-    public final int width;
-    public final int height;
+    public int width;
+    public int height;
+
+    public WrappedElement(String id) {
+        this.id = id;
+    }
+
+    public WrappedElement(String id, int width, int height) {
+        this.id = id;
+        this.width = width;
+        this.height = height;
+    }
 
     public WrappedElement(String id, int x, int y, int width, int height) {
         this.id = id;

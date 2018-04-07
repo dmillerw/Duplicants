@@ -8,6 +8,14 @@ public class WrappedButton extends WrappedElement<GuiButtonExt> {
     private String displayString;
     private String[] tooltip = new String[0];
 
+    public WrappedButton(String id) {
+        super(id);
+    }
+
+    public WrappedButton(String id, int width, int height) {
+        super(id, width, height);
+    }
+
     public WrappedButton(String id, int x, int y, int width, int height) {
         super(id, x, y, width, height);
     }
@@ -24,7 +32,7 @@ public class WrappedButton extends WrappedElement<GuiButtonExt> {
     }
 
     public WrappedButton displayString(String displayString) {
-        getMcElement().displayString = displayString;
+        this.displayString = displayString;
         return this;
     }
 
