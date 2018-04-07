@@ -111,7 +111,7 @@ public class EntityCitizen extends EntityLiving {
 
     @Override
     public ITextComponent getDisplayName() {
-        return new TextComponentString(getName());
+        return new TextComponentString(getCitizenName().isPresent() ? getCitizenName().get() : "");
     }
 
     @Override
