@@ -1,6 +1,6 @@
 package me.dmillerw.citizens;
 
-import me.dmillerw.citizens.proxy.CommonProxy;
+import me.dmillerw.citizens.common.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -22,7 +22,7 @@ public class Citizens {
     @Mod.Instance(MOD_ID)
     public static Citizens instance;
 
-    @SidedProxy(serverSide = "me.dmillerw.citizens.proxy.CommonProxy", clientSide = "me.dmillerw.citizens.proxy.ClientProxy")
+    @SidedProxy(serverSide = "me.dmillerw.citizens.common.proxy.CommonProxy", clientSide = "me.dmillerw.citizens.common.proxy.ClientProxy")
     public static CommonProxy proxy;
 
     @Mod.EventHandler

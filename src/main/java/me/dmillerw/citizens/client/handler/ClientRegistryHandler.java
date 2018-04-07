@@ -1,6 +1,6 @@
 package me.dmillerw.citizens.client.handler;
 
-import me.dmillerw.citizens.block.ModBlocks;
+import me.dmillerw.citizens.common.block.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

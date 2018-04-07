@@ -2,7 +2,7 @@ package me.dmillerw.citizens.client.render.entity;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import me.dmillerw.citizens.client.model.ModelCitizen;
-import me.dmillerw.citizens.entity.EntityCitizen;
+import me.dmillerw.citizens.common.entity.EntityCitizen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderBiped;

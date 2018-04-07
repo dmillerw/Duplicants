@@ -1,8 +1,8 @@
 package me.dmillerw.citizens.client.gui;
 
 import me.dmillerw.citizens.Citizens;
-import me.dmillerw.citizens.entity.EntityCitizen;
-import me.dmillerw.citizens.inventory.ContainerCitizenInventory;
+import me.dmillerw.citizens.common.entity.EntityCitizen;
+import me.dmillerw.citizens.common.inventory.ContainerCitizenInventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -106,7 +106,7 @@ public class GuiCitizenInventory extends GuiContainer {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button.id == 0) {
-            GuiDuplicantVisualSettings settings = new GuiDuplicantVisualSettings(this.entityCitizen);
+            GuiCitizenVisualSettings settings = new GuiCitizenVisualSettings(this.entityCitizen);
             this.mc.displayGuiScreen(settings);
         }
     }
