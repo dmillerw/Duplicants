@@ -1,6 +1,8 @@
 package me.dmillerw.citizens.client.gui;
 
 import me.dmillerw.citizens.Citizens;
+import me.dmillerw.citizens.client.gui.element.GuiButtonTooltip;
+import me.dmillerw.citizens.client.gui.modal.GuiModal;
 import me.dmillerw.citizens.common.entity.EntityCitizen;
 import me.dmillerw.citizens.common.inventory.ContainerCitizenInventory;
 import net.minecraft.client.Minecraft;
@@ -40,6 +42,9 @@ public class GuiCitizenInventory extends GuiContainer {
     public void initGui() {
         super.initGui();
 
+        addButton(new GuiButtonTooltip(0, guiLeft + 151, guiTop + 7, 18, 18, "N").tooltip("Name: " + entityCitizen.getCitizenName()));
+        addButton(new GuiButtonTooltip(1, guiLeft + 151, guiTop + 29, 18, 18, "S").tooltip("Skin: " + entityCitizen.getSkin()));
+
         addButton(new GuiButtonExt(0, guiLeft + 106, guiTop + 61, 63, 18, "Settings"));
     }
 
@@ -51,6 +56,11 @@ public class GuiCitizenInventory extends GuiContainer {
         this.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        buttonList.forEach((b) -> {
+            if (b instanceof GuiButtonTooltip)
+                ((GuiButtonTooltip) b).drawTooltip(mc, mouseX, mouseY, width, height, fontRenderer);
+        });
     }
 
     @Override
@@ -106,8 +116,8 @@ public class GuiCitizenInventory extends GuiContainer {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button.id == 0) {
-            GuiCitizenVisualSettings settings = new GuiCitizenVisualSettings(this.entityCitizen);
-            this.mc.displayGuiScreen(settings);
+//            GuiCitizenVisualSettings settings = new GuiCitizenVisualSettings(this.entityCitizen);
+            this.mc.displayGuiScreen(new GuiModal());
         }
     }
 }

@@ -1,7 +1,7 @@
 package me.dmillerw.citizens.common.network;
 
 import me.dmillerw.citizens.client.gui.GuiCitizenInventory;
-import me.dmillerw.citizens.client.gui.GuiCitizenVisualSettings;
+import me.dmillerw.citizens.client.gui.modal.GuiModal;
 import me.dmillerw.citizens.common.entity.EntityCitizen;
 import me.dmillerw.citizens.common.inventory.ContainerCitizenInventory;
 import me.dmillerw.citizens.common.network.packet.COpenGui;
@@ -78,7 +78,7 @@ public class GuiHandler {
 
     public static void initialize() {
         clientGuiHandlers.put(GuiKey.DUPLICANT_INVENTORY, (p, t) -> new GuiCitizenInventory(p, (EntityCitizen) t.getEntity(p.world)));
-        clientGuiHandlers.put(GuiKey.DUPLICANT_SETTINGS, (p, t) -> new GuiCitizenVisualSettings((EntityCitizen) t.getEntity(p.world)));
+        clientGuiHandlers.put(GuiKey.DUPLICANT_SETTINGS, (p, t) -> new GuiModal());
 
         serverGuiHandlers.put(GuiKey.DUPLICANT_INVENTORY, (p, t) -> new ContainerCitizenInventory(p, (EntityCitizen) t.getEntity(p.world)));
     }
